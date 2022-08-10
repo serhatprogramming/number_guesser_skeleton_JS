@@ -17,6 +17,39 @@
   <body>
     <div class="container">
       <h1>Number Guesser</h1>
+      <div id="setup">
+        <div class="row">
+          <h3>Game Setup</h3>
+          <p class="setup-message"></p>
+        </div>
+        <div class="row">
+          <div class="six columns">
+            <p>Default values:</p>
+            <ul>
+              <li>Minimum = 1</li>
+              <li>Maximum = 10</li>
+              <li>Number of Guesses = 3</li>
+            </ul>
+          </div>
+          <div class="six columns">
+            <p>Setup rules;</p>
+            <ul>
+              <li>Minimum cannot be bigger than the maximum.</li>
+              <li>The range cannot be bigger than 20.</li>
+              <li># of Guesses must be between 3 and 5.</li>
+            </ul>
+          </div>
+        </div>
+
+        <input type="number" id="min-input" placeholder="Enter minimum" />
+        <input type="number" id="max-input" placeholder="Enter maximum" />
+        <input
+          type="number"
+          id="number-of-guesses"
+          placeholder="# of Guesses"
+        />
+        <input type="submit" value="Let's Play" id="setup-btn" />
+      </div>
       <div id="game">
         <p>
           Guess a number <span class="min-num"></span> and

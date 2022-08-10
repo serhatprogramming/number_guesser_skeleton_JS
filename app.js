@@ -19,11 +19,42 @@ const guessInput = document.querySelector("#guess-input"),
   minNum = document.querySelector(".min-num"),
   maxNum = document.querySelector(".max-num"),
   guessBtn = document.querySelector("#guess-btn"),
-  message = document.querySelector(".message");
+  message = document.querySelector(".message"),
+  setup = document.querySelector("#setup"),
+  minInput = document.querySelector("#min-input"),
+  maxInput = document.querySelector("#max-input"),
+  numberOfGuesses = document.querySelector("#number-of-guesses"),
+  setupBtn = document.querySelector("#setup-btn"),
+  setupMessage = document.querySelector(".setup-message");
 
-// Assign UI min and max
-minNum.textContent = min;
-maxNum.textContent = max;
+// set the game display to none
+game.style.display = "none";
+
+// Setup
+setupBtn.addEventListener("click", () => {
+  if (!isNaN(parseInt(minInput.value))) min = parseInt(minInput.value);
+  if (!isNaN(parseInt(maxInput.value))) max = parseInt(maxInput.value);
+  if (!isNaN(parseInt(numberOfGuesses.value)))
+    guessesLeft = parseInt(numberOfGuesses.value);
+  winningNum = Math.floor(Math.random() * (max - min + 1) + min);
+
+  // Assign UI min and max
+  minNum.textContent = min;
+  maxNum.textContent = max;
+
+  setMessage(
+    `Winning number will be between ${min} and ${max} inclusive. You will have ${guessesLeft} guesses to win.`,
+    "coral"
+  );
+  if (min < max && max - min <= 20 && guessesLeft >= 3 && guessesLeft <= 5) {
+    setup.style.display = "none";
+    game.style.display = "block";
+  } else {
+    setupMessage.textContent =
+      "Invalid setup values, Check the setup rules and enter the values again";
+    setupMessage.style.color = "red";
+  }
+});
 
 // Listen for guess
 guessBtn.addEventListener("click", () => {
@@ -37,6 +68,8 @@ guessBtn.addEventListener("click", () => {
       // Check if won
       if (guess === winningNum) {
         setMessage(`Congratulations, the winning number: ${guess}`, "green");
+        guessInput.style.borderColor = "green";
+        guessInput.value = "";
         gameOver();
       } else {
         guessesLeft--;
@@ -47,7 +80,9 @@ guessBtn.addEventListener("click", () => {
           );
           gameOver();
         } else {
-          setMessage(`Wrong guess! Guesses left: ${guessesLeft} `, "red");
+          setMessage(`${guess} is wrong! Guesses left: ${guessesLeft} `, "red");
+          guessInput.value = "";
+          guessInput.style.borderColor = "red";
         }
       }
     } else {
@@ -76,7 +111,10 @@ function restart() {
   winningNum = Math.floor(Math.random() * max + min);
   setMessage();
   guessInput.disabled = false;
+  guessInput.style.borderColor = "gray";
   guessInput.value = "";
   guessInput.placeholder = "Enter your guess...";
   guessBtn.value = "submit";
+  game.style.display = "none";
+  setup.style.display = "block";
 }
